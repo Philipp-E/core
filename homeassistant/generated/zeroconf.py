@@ -112,6 +112,11 @@ ZEROCONF = {
             "domain": "daikin"
         }
     ],
+    "_dockset._tcp.local.": [
+        {
+            "domain": "airlino"
+        }
+    ],
     "_dvl-deviceapi._tcp.local.": [
         {
             "domain": "devolo_home_control"

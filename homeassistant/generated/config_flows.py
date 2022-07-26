@@ -15,6 +15,7 @@ FLOWS = {
         "advantage_air",
         "aemet",
         "agent_dvr",
+        "airlino",
         "airly",
         "airnow",
         "airthings",

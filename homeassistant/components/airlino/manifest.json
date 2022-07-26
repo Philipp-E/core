@@ -1,0 +1,13 @@
+{
+  "domain": "airlino",
+  "name": "Airlino",
+  "config_flow": true,
+  "documentation": "https://www.home-assistant.io/integrations/airlino",
+  "requirements": [],
+  "ssdp": [],
+  "zeroconf": ["_dockset._tcp.local."],
+  "homekit": {},
+  "dependencies": [],
+  "codeowners": ["@Philipp-E"],
+  "iot_class": "local_polling"
+}

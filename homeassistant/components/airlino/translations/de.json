@@ -1,0 +1,29 @@
+{
+    "config": {
+        "abort": {
+            "no_devices_found": "Es wurde kein Gerät im Netzwerk gefunden.",
+            "single_instance_allowed": "Bereits konfiguriert. Es ist nur eine Konfiguration pro Gerät möglich.",
+            "already_configured": "Das Gerät ist bereits konfiguriert",
+            "cannot_connect": "Verbindung fehlgeschlagen"
+        },
+        "error": {
+            "cannot_connect": "Verbindung fehlgeschlagen"
+        },
+        "flow_title": "Airlino",
+        "step": {
+            "user": {
+                "data": {
+                    "ip_address": "IP Adresse"
+                },
+                "description": "Richte dein Airlino Gerät ein um es in Home Assistant zu verwenden."
+            },
+            "zeroconf_confirm": {
+                "description": "Möchtest du das Airlino Gerät mit dem Namen `{name}` zu Home Assistant hinzufügen?",
+                "title": "Gefundenes Gerät"
+            },
+            "confirm": {
+                "description": "Möchtest du mit der Einrichtung starten?"
+            }
+        }
+    }
+}
