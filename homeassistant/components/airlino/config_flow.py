@@ -52,8 +52,9 @@ class AirlinoFlowHandler(ConfigFlow, domain=DOMAIN):
     ) -> FlowResult:
         """Handle a flow initiated by the user."""
 
+        errors = {"base": ""}
+
         if user_input is not None:
-            errors = {"base": ""}
             try:
                 self.ip = str(user_input.get(CONF_IP_ADDRESS))
                 device_state = await check_airlino_device_state(self.hass, self.ip)

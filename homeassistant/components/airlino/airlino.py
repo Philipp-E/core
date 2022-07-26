@@ -1,6 +1,6 @@
 """Support for airlino devices."""
 
-from requests import Response, post
+from requests import Response, exceptions, post
 
 from homeassistant.const import STATE_IDLE
 from homeassistant.core import HomeAssistant
@@ -38,36 +38,35 @@ class AirlinoEntity:
         """Update data and return if device is proper airlino device."""
         try:
             await self.__check_api_version()
-            response = await connect_handler(
+            response_device__action = await connect_handler(
                 self._hass,
                 self.ip_address,
                 self._api_version,
                 "device.action",
                 {"action": "info"},
             )
-        except IncompleteResponse:
-            return False
-        except ConnectionError:
-            return False
-        else:
-            if "devicename" in response.json():
-                self._name = response.json()["devicename"]
-            else:
-                return False
 
-        try:
-            response = await connect_handler(
+            response_network_action = await connect_handler(
                 self._hass,
                 self.ip_address,
                 self._api_version,
                 "network.action",
                 {"action": "info"},
             )
-        except IncompleteResponse:
+        except ConnectionError:
             return False
         else:
-            if "wlan" in response.json():
-                self._mac = response.json()["wlan"]["mac"]
+            # device action check
+            if "devicename" in response_device__action.json():
+                self._name = response_device__action.json()["devicename"]
+            else:
+                return False
+
+            # network action check
+            if "wlan" in response_network_action.json():
+                self._mac = response_network_action.json()["wlan"]["mac"]
+            elif "eth" in response_network_action.json():
+                self._mac = response_network_action.json()["eth"]["mac"]
             else:
                 return False
 
@@ -244,8 +243,8 @@ def __connect_handler(ip_address: str, version: int, endpoint, data) -> Response
 
     try:
         response = post(url, json=data, headers=headers)
-    except ConnectionError:
-        raise IncompleteResponse(response) from None
+    except exceptions.RequestException:
+        raise ConnectionError from None
 
     return response
 
@@ -261,7 +260,7 @@ async def check_airlino_device_state(hass: HomeAssistant, ip_address: str) -> bo
         response = await connect_handler(
             hass, ip_address, 10, "device.action", {"action": "info"}
         )
-    except IncompleteResponse:
+    except ConnectionError:
         return False
     else:
         # Check if response contains devicename and model and return True if so
